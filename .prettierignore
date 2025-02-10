@@ -1,0 +1,7 @@
+/node_modules
+/vendor
+/content
+/kirby
+/storage
+/web/modules
+*.twig

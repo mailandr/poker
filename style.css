@@ -1,0 +1,250 @@
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+/* * {
+    outline: 1px solid #f00 !important;
+} */
+
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+    hyphenate-limit-chars: auto 5 5;
+}
+
+body {
+    font-family: "Funnel Display", system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+        "Helvetica Neue", sans-serif;
+    font-size: 1.8rem;
+    box-sizing: border-box;
+}
+
+.main__canvas {
+    display: flex;
+    flex-flow: column nowrap;
+    min-height: 100vh;
+    background: linear-gradient(
+        150deg,
+        #2b2e4a,
+        #3e345e,
+        #57386e,
+        #723b78,
+        #903c7a,
+        #af3d73,
+        #cd3f63,
+        #e84545
+    );
+    color: white;
+}
+
+.u-generic-wrapper {
+    margin: 0 auto;
+    max-width: 105rem;
+    width: 100%;
+
+    margin-bottom: 3rem;
+}
+
+.u-generic-wrapper-margin {
+    margin: 0 3rem;
+}
+
+.header {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    margin: 5rem 0 5rem;
+    text-align: center;
+
+    h1 {
+        font-size: 5rem;
+    }
+}
+
+.header-img {
+    width: 25rem;
+    margin-bottom: 2rem;
+    
+    @media only screen and (max-width: 600px) {
+        width: 10rem;
+    }
+
+    img {
+        width: 100%;
+    }
+}
+
+.news__container {
+    overflow: hidden;
+    position: relative;
+    height: 4rem;
+    line-height: 4rem;
+    margin-bottom: 5rem;
+    font-style: italic;
+    color: yellow;
+}
+
+.news-content {
+    position: absolute;
+    white-space: nowrap;
+    animation: news 10s linear infinite;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+}
+
+@keyframes news {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.tournament__wrapper {
+    margin-bottom: 5rem;
+}
+
+.tournament__label {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    column-gap: 2rem;
+    margin-bottom: 2rem;
+    cursor: pointer;
+
+    .tournament__label--icon {
+        position: relative;
+        display: block;
+        width: 2.7rem;
+        height: 2.7rem;
+        flex-shrink: 0;
+
+        &::after {
+            position: absolute;
+            content: "";
+            inset: 0;
+            width: 2.7rem;
+            height: 2.7rem;
+            background-image: url("assets/icons/accordion-plus.svg");
+            background-size: 2.7rem;
+        }
+    }
+}
+
+.tournament__checkbox {
+    display: none;
+}
+
+.tournament__checkbox:checked + .tournament__label {
+    .tournament__label--icon {
+        &::after {
+            background-image: url("assets/icons/accordion-minus-white.svg");
+        }
+    }
+}
+.tournament__checkbox:checked ~ .tournament__table {
+    display: block;
+    opacity: 1;
+    overflow: visible;
+    max-height: 100%;
+    overflow-x: auto;
+}
+
+.tournament__table {
+    display: none;
+    opacity: 0;
+    max-height: 0;
+    overflow-y: hidden;
+
+    th {
+        font-size: 1.8rem;
+        font-weight: 900;
+        text-transform: uppercase;
+    }
+}
+
+.tournament__info {
+    margin-bottom: 2rem;
+}
+
+.tournament__placement {
+    text-align: center;
+}
+
+.swiper-slide__wrapper {
+    display: flex;
+    justify-content: center;
+
+    img {
+        object-fit: cover;
+        width: 50%;
+        height: auto;
+        margin: 0 auto;
+        @media only screen and (max-width: 600px) {
+            width: 100%;
+        }
+    }
+}
+
+.tournament__imgs {
+    margin: 2rem 0 8rem;
+
+    @media only screen and (max-width: 600px) {
+        margin: 2rem 0 4rem;
+    }
+}
+.swiper-button-next,
+.swiper-button-prev {
+    border-radius: 50%;
+    width: 4rem !important;
+    height: 4rem !important;
+    background: linear-gradient(
+        150deg,
+        #2b2e4a,
+        #3e345e,
+        #57386e,
+        #723b78,
+        #903c7a,
+        #af3d73,
+        #cd3f63,
+        #e84545
+    );
+
+    @media only screen and (max-width: 600px) {
+        width: 2rem !important;
+        height: 2rem !important;
+    }
+
+    &::after {
+        font-size: 2rem !important;
+        font-weight: bold !important;
+        color: white;
+
+        @media only screen and (max-width: 600px) {
+            font-size: 1rem !important;
+        }
+    }
+}
+
+table {
+    width: 100%;
+}
+
+table,
+th,
+td {
+    border: 1px solid white;
+}
+
+th,
+td {
+    padding: 1rem;
+}

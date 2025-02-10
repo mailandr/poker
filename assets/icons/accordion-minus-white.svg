@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 29 29">
+    <g id="more" transform="translate(0.175 0.175)">
+        <g id="Ellipse_1" data-name="Ellipse 1" transform="translate(-0.175 -0.175)" fill="none" stroke="#fff"
+            stroke-width="1">
+            <circle cx="14.5" cy="14.5" r="14.5" stroke="none" />
+            <circle cx="14.5" cy="14.5" r="14" fill="none" />
+        </g>
+        <text id="_" data-name="–" transform="translate(8.825 18.825)" fill="#fff" font-size="19"
+            font-family="SkolarSansLatn-Rg, Skolar Sans Latin" letter-spacing="0.08em">
+            <tspan x="0" y="0">–</tspan>
+        </text>
+    </g>
+</svg>
