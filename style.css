@@ -111,6 +111,10 @@ body {
 
 .tournament__wrapper {
     margin-bottom: 5rem;
+
+    @media only screen and (max-width: 600px) {
+        margin-bottom: 3rem;
+    }
 }
 
 .tournament__label {
@@ -124,8 +128,8 @@ body {
     .tournament__label--icon {
         position: relative;
         display: block;
-        width: 2.7rem;
-        height: 2.7rem;
+        width: 2.7rem !important;
+        height: 2.7rem !important;
         flex-shrink: 0;
 
         &::after {
