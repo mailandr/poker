@@ -128,18 +128,18 @@ body {
     .tournament__label--icon {
         position: relative;
         display: block;
-        width: 2.7rem !important;
-        height: 2.7rem !important;
+        width: 3rem !important;
+        height: 3rem !important;
         flex-shrink: 0;
 
         &::after {
             position: absolute;
             content: "";
             inset: 0;
-            width: 2.7rem;
-            height: 2.7rem;
+            width: 3rem;
+            height: 3rem;
             background-image: url("assets/icons/accordion-plus.svg");
-            background-size: 2.7rem;
+            background-size: 3rem;
         }
     }
 }
