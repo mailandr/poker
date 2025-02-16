@@ -64,6 +64,10 @@ body {
 
     h1 {
         font-size: 5rem;
+
+        @media only screen and (max-width: 600px) {
+            font-size: 4rem;
+        }
     }
 }
 
@@ -142,8 +146,6 @@ body {
             background-size: 2.5rem;
         }
     }
-
-
 }
 
 .tournament__checkbox {
