@@ -129,6 +129,11 @@ body {
     margin-bottom: 2rem;
     cursor: pointer;
 
+    @media (hover: none) and (pointer: coarse) {
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
     .tournament__label--icon {
         position: relative;
         display: block;
