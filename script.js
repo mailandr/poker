@@ -8,10 +8,10 @@ if (swiper_elements !== null) {
             fadeEffect: {
                 crossFade: true,
             },
-            // autoplay: {
-            //     delay: 2000,
-            //     disableOnInteraction: true,
-            // },
+            autoplay: {
+                delay: 2000,
+                disableOnInteraction: true,
+            },
             pagination: {
                 el: `.pagination-${swiper_index}`,
               },
