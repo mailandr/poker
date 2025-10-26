@@ -220,6 +220,20 @@ body {
     background: rgba(white, 0.5) !important;
 }
 
+.swiper-wrapper {
+    padding-bottom: 40px;
+}
+
+.swiper-slide {
+    height: unset !important;
+    margin: auto 0;
+}
+
+.pagination {
+    position: absolute;
+    bottom: 0 !important;
+}
+
 /* .swiper-button-next,
 .swiper-button-prev {
     border-radius: 50%;
