@@ -22,12 +22,6 @@ body {
         "Helvetica Neue", sans-serif;
     font-size: 1.8rem;
     box-sizing: border-box;
-}
-
-.main__canvas {
-    display: flex;
-    flex-flow: column nowrap;
-    min-height: 100vh;
     background: linear-gradient(
         150deg,
         #2b2e4a,
@@ -39,6 +33,23 @@ body {
         #cd3f63,
         #e84545
     );
+}
+
+.main__canvas {
+    display: flex;
+    flex-flow: column nowrap;
+    min-height: 100vh;
+    /* background: linear-gradient(
+        150deg,
+        #2b2e4a,
+        #3e345e,
+        #57386e,
+        #723b78,
+        #903c7a,
+        #af3d73,
+        #cd3f63,
+        #e84545
+    ); */
     color: white;
 }
 
@@ -77,10 +88,16 @@ body {
 
     @media only screen and (max-width: 600px) {
         width: 10rem;
+        max-width: 10rem;
     }
+}
 
-    img {
-        width: 100%;
+.header-img img {
+    width: 100%;
+
+    @media only screen and (max-width: 600px) {
+        width: 10rem;
+        max-width: 10rem;
     }
 }
 
@@ -133,24 +150,24 @@ body {
         user-select: none;
         -webkit-tap-highlight-color: transparent;
     }
+}
 
-    .tournament__label--icon {
-        position: relative;
-        display: block;
-        width: 2.5rem !important;
-        height: 2.5rem !important;
-        flex-shrink: 0;
+.tournament__label--icon {
+    position: relative;
+    display: block;
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    flex-shrink: 0;
+}
 
-        &::after {
-            position: absolute;
-            content: "";
-            inset: 0;
-            width: 2.5rem;
-            height: 2.5rem;
-            background-image: url("assets/icons/plus.svg");
-            background-size: 2.5rem;
-        }
-    }
+.tournament__label--icon::after {
+    position: absolute;
+    content: "";
+    inset: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-image: url("assets/icons/plus.svg");
+    background-size: 2.5rem;
 }
 
 .tournament__checkbox {
@@ -196,16 +213,16 @@ body {
 .swiper-slide__wrapper {
     display: flex;
     justify-content: center;
+}
 
-    img {
-        object-fit: cover;
-        width: 70%;
-        height: auto;
-        margin: 0 auto;
+.swiper-slide__wrapper img {
+    object-fit: cover;
+    width: 70%;
+    height: auto;
+    margin: 0 auto;
 
-        @media only screen and (max-width: 600px) {
-            width: 100%;
-        }
+    @media only screen and (max-width: 600px) {
+        width: 100%;
     }
 }
 
