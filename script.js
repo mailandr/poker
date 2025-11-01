@@ -20,3 +20,18 @@ if (swiper_elements !== null) {
         swiper_index--;
     });
 }
+
+// easter-egg
+const egg_btn = document.getElementById("egg-btn");
+const egg = document.getElementById("egg");
+
+egg_btn.addEventListener("click", () => {
+    const x = Math.random() * (window.innerWidth - 220);
+    const y = Math.random() * (window.innerHeight - 150);
+    egg.style.left = `${x}px`;
+    egg.style.top = `${y}px`;
+
+    egg.style.animation = "none"; // vorherige Animation entfernen
+    egg.offsetHeight; // Reflow erzwingen
+    egg.style.animation = "fadeOut 2s forwards"; // neue Animation starten
+});
