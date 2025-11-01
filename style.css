@@ -22,23 +22,6 @@ body {
         "Helvetica Neue", sans-serif;
     font-size: 1.8rem;
     box-sizing: border-box;
-    background: linear-gradient(
-        150deg,
-        #2b2e4a,
-        #3e345e,
-        #57386e,
-        #723b78,
-        #903c7a,
-        #af3d73,
-        #cd3f63,
-        #e84545
-    );
-}
-
-.main__canvas {
-    display: flex;
-    flex-flow: column nowrap;
-    min-height: 100vh;
     /* background: linear-gradient(
         150deg,
         #2b2e4a,
@@ -50,6 +33,13 @@ body {
         #cd3f63,
         #e84545
     ); */
+    background: #35654D;
+}
+
+.main__canvas {
+    display: flex;
+    flex-flow: column nowrap;
+    min-height: 100vh;
     color: white;
 }
 
@@ -194,6 +184,22 @@ body {
     opacity: 0;
     max-height: 0;
     overflow-y: hidden;
+
+    th {
+        font-size: 1.8rem;
+        font-weight: 900;
+        text-transform: uppercase;
+    }
+}
+
+.tournament__stats-label {
+    margin-bottom: 2rem;
+}
+
+.tournament__stats--starts {
+    width: 10%;
+}
+.tournament__stats {
 
     th {
         font-size: 1.8rem;
