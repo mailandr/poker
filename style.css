@@ -209,6 +209,10 @@ body {
     margin-bottom: 2rem;
 }
 
+.tournament__starts-item {
+    text-align: end;
+}
+
 .tournament__stats--starts {
     width: 10%;
 }
