@@ -27,7 +27,7 @@ const egg = document.getElementById("egg");
 
 egg_btn.addEventListener("click", () => {
     const x = Math.random() * (window.innerWidth - 220);
-    const y = Math.random() * (window.innerHeight - 150);
+    const y = Math.random() * (window.innerHeight - 250);
     egg.style.left = `${x}px`;
     egg.style.top = `${y}px`;
 
