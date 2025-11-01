@@ -13,11 +13,10 @@ if (swiper_elements !== null) {
                 disableOnInteraction: true,
             },
             pagination: {
+                dynamicBullets: true,
                 el: `.pagination-${swiper_index}`,
-              },
-
+            },
         });
         swiper_index--;
     });
-
 }

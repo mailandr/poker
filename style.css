@@ -223,12 +223,14 @@ body {
 
 .swiper-slide__wrapper img {
     object-fit: cover;
-    width: 70%;
+    max-height: 50rem;
+    width: auto;
     height: auto;
     margin: 0 auto;
 
     @media only screen and (max-width: 600px) {
         width: 100%;
+        max-height: unset;
     }
 }
 
