@@ -27,6 +27,11 @@ Static, single-page results site for the private "Hosalotri" home poker game. Co
 3. Don't touch the medal table; it is calculated. Spell player names exactly as before, or they count as a new player.
 4. Bump the `?v=YYYYMMDD` cache-buster in `index.html` for every changed file (`tournaments.js`, `script.js`, `style.css`, `font.css`). Otherwise phones keep showing the old results.
 
+## Hosting
+- GitHub Pages project site: https://mailandr.github.io/poker/ (repo `poker`, served under the `/poker/` subpath).
+- **Always use relative paths** (`assets/...`, `site.webmanifest`). A leading `/` points to `mailandr.github.io/` and returns 404.
+- Link previews (WhatsApp etc.) come from the `og:*` meta tags in `index.html`, not from JS. `og:image` must be an absolute URL. The image is `assets/img/og.jpg` (1200×630, keep it under ~300 KB).
+
 ## Notes
 - The site is deliberately not indexed (`robots.txt` Disallow, `noindex` meta). Keep it that way.
 - Player names are nicknames; keep their spelling consistent across tables (e.g. "Tobi Z.", "klie Tobi").
