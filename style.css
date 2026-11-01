@@ -1,338 +1,719 @@
-*,
-*::after,
-*::before {
-    margin: 0;
-    padding: 0;
-    box-sizing: inherit;
-}
+/* ==========================================================================
+   Hosalotri – "Nach Mitternacht am Pokertisch"
+   Dunkler Filz unter warmem Lampenlicht, jedes Turnier eine Spielkarte.
+   Mobile first: alle Größen starten bei ~360px, ab 40rem wird nur verfeinert.
+   ========================================================================== */
 
-/* <details> rendert seinen Inhalt in ::details-content, das von * nicht erfasst wird.
-   Eigene Regel, damit Browser ohne diesen Pseudo-Selektor nicht die ganze Liste verwerfen. */
-::details-content {
-    box-sizing: inherit;
-}
+@layer reset, base, layout, components, motion;
 
-/* * {
-    outline: 1px solid #f00 !important;
-} */
+/* --------------------------------------------------------------------------
+   Reset – bewusst nur für konkrete Elemente, kein globales *
+   -------------------------------------------------------------------------- */
+@layer reset {
+    html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+    }
 
-html {
-    font-size: 62.5%;
-    scroll-behavior: smooth;
-    hyphenate-limit-chars: auto 5 5;
-}
+    body,
+    h1,
+    h2,
+    h3,
+    p,
+    dl,
+    dd,
+    ul {
+        margin: 0;
+    }
 
-body {
-    font-family: "Funnel Display", system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-        "Helvetica Neue", sans-serif;
-    font-size: 1.8rem;
-    box-sizing: border-box;
-    /* background: linear-gradient(
-        150deg,
-        #2b2e4a,
-        #3e345e,
-        #57386e,
-        #723b78,
-        #903c7a,
-        #af3d73,
-        #cd3f63,
-        #e84545
-    ); */
-    background: #35654d;
-}
+    ul {
+        padding: 0;
+        list-style: none;
+    }
 
-.main__canvas {
-    display: flex;
-    flex-flow: column nowrap;
-    min-height: 100vh;
-    color: white;
-}
+    img {
+        display: block;
+        max-inline-size: 100%;
+    }
 
-.u-generic-wrapper {
-    margin: 0 auto;
-    max-width: 105rem;
-    width: 100%;
-
-    margin-bottom: 3rem;
-}
-
-.u-generic-wrapper-margin {
-    margin: 0 3rem;
-
-    @media only screen and (max-width: 600px) {
-        margin: 0 1.5rem;
+    table {
+        border-collapse: collapse;
     }
 }
 
-.header {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-    align-items: center;
-    margin: 5rem 0 5rem;
-    text-align: center;
+/* --------------------------------------------------------------------------
+   Tokens & Basis
+   -------------------------------------------------------------------------- */
+@layer base {
+    :root {
+        /* Tier 1: Farben */
+        --felt-950: #06130e;
+        --felt-900: #0b2219;
+        --felt-800: #103022;
+        --felt-700: #16402e;
+        --ivory-50: #fdf9ef;
+        --ivory-100: #f6eedb;
+        --ivory-200: #ebdfc1;
+        --ink-900: #1a1712;
+        --ink-700: #3d372c;
+        --ink-500: #6b624f;
+        --red-600: #a3241c;
+        --gold-400: #e2c06e;
+        --silver-400: #c9ccd0;
+        --bronze-400: #cf9061;
 
-    h1 {
-        font-size: 5rem;
+        /* Tier 2: Bedeutung */
+        --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+        --font-display-weight: 600;
+        --font-body: "Funnel Display", system-ui, -apple-system, "Segoe UI", sans-serif;
+        --color-text: var(--ivory-100);
+        --color-text-muted: color-mix(in oklab, var(--ivory-100) 62%, transparent);
+        --color-accent: var(--gold-400);
+        --color-card: var(--ivory-50);
+        --color-card-ink: var(--ink-900);
+        --color-card-muted: var(--ink-500);
+        --color-rule: color-mix(in oklab, var(--ink-900) 14%, transparent);
+        --color-accent-rule: color-mix(in oklab, var(--gold-400) 30%, transparent);
 
-        @media only screen and (max-width: 600px) {
-            font-size: 4rem;
-        }
-    }
-}
+        /* Tier 3: UI */
+        --radius-card: 1.125rem;
+        --radius-inner: 0.625rem;
+        --gutter-start: max(1rem, env(safe-area-inset-left));
+        --gutter-end: max(1rem, env(safe-area-inset-right));
+        --shadow-card:
+            0 1px 2px rgb(0 0 0 / 0.3),
+            0 6px 12px -4px rgb(0 0 0 / 0.35),
+            0 22px 40px -18px rgb(0 0 0 / 0.7);
+        --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
 
-.header-img {
-    width: 25rem;
-    margin-bottom: 2rem;
-
-    @media only screen and (max-width: 600px) {
-        width: 10rem;
-        max-width: 10rem;
-    }
-}
-
-.header-img img {
-    width: 100%;
-
-    @media only screen and (max-width: 600px) {
-        width: 10rem;
-        max-width: 10rem;
-    }
-}
-
-.news__container {
-    width: 100%;
-    overflow: hidden;
-    margin-bottom: 5rem;
-    font-style: italic;
-}
-
-.news__content {
-    display: inline-block;
-    white-space: nowrap;
-    padding-left: 100%;
-    animation: news 10s linear infinite;
-    color: yellow;
-    font-size: 2.5rem;
-    text-transform: uppercase;
-}
-
-@keyframes news {
-    0% {
-        /* transform: translateX(100%); */
-        transform: translate3d(0, 0, 0);
+        color-scheme: dark;
+        interpolate-size: allow-keywords;
     }
 
-    100% {
-        /* transform: translateX(-100%); */
-        transform: translate3d(-100%, 0, 0);
-    }
-}
-
-.tournament__wrapper {
-    margin-bottom: 4rem;
-
-    @media only screen and (max-width: 600px) {
-        margin-bottom: 1.5rem;
-    }
-}
-
-.tournament__label {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    column-gap: 2rem;
-    margin-bottom: 2rem;
-    cursor: pointer;
-    border: 1px solid white;
-    border-radius: 1rem;
-    padding: 2rem;
-
-    @media (hover: none) and (pointer: coarse) {
-        user-select: none;
+    body {
+        min-block-size: 100dvh;
+        font-family: var(--font-body);
+        font-size: 1rem;
+        line-height: 1.5;
+        color: var(--color-text);
+        background-color: var(--felt-900);
+        -webkit-font-smoothing: antialiased;
         -webkit-tap-highlight-color: transparent;
     }
-}
 
-.tournament__label span {
-    font-size: 0.5em;
-    font-style: italic;
-    display: block;
-}
+    /* Filz: Lampenlicht von oben, dunkle Ränder, feines Korn.
+       Als fixierte Ebene, weil background-attachment: fixed auf iOS nicht greift. */
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background:
+            radial-gradient(ellipse 110% 55% at 50% -8%, rgb(255 214 150 / 0.2), transparent 70%),
+            radial-gradient(ellipse 140% 90% at 50% 40%, transparent 45%, rgb(0 0 0 / 0.55) 100%),
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+            linear-gradient(var(--felt-800), var(--felt-900) 60%, var(--felt-950));
+    }
 
-.tournament__label--icon {
-    position: relative;
-    display: block;
-    width: 2.5rem !important;
-    height: 2.5rem !important;
-    flex-shrink: 0;
-}
+    ::selection {
+        background: var(--gold-400);
+        color: var(--ink-900);
+    }
 
-.tournament__label--icon::after {
-    position: absolute;
-    content: "";
-    inset: 0;
-    width: 2.5rem;
-    height: 2.5rem;
-    background-image: url("assets/icons/plus.svg");
-    background-size: 2.5rem;
-}
-
-/* <details>/<summary>: Standard-Dreieck ausblenden, eigenes +/- Icon nutzen */
-summary.tournament__label {
-    list-style: none;
-
-    &::-webkit-details-marker {
-        display: none;
+    :focus-visible {
+        outline: 3px solid var(--gold-400);
+        outline-offset: 3px;
     }
 }
 
-.tournament__wrapper[open] .tournament__label--icon::after {
-    background-image: url("assets/icons/minus.svg");
-}
-
-.tournament__table {
-    overflow-x: auto;
-
-    th {
-        font-size: 1.8rem;
-        font-weight: 900;
-        text-transform: uppercase;
-    }
-}
-
-.tournament__stats-label {
-    margin-bottom: 2rem;
-}
-
-.tournament__starts-item {
-    text-align: end;
-}
-
-.tournament__stats--starts {
-    width: 10%;
-}
-.tournament__stats {
-    th {
-        font-size: 1.8rem;
-        font-weight: 900;
-        text-transform: uppercase;
-    }
-}
-
-.tournament__info {
-    margin-bottom: 2rem;
-}
-
-.tournament__placement {
-    text-align: center;
-}
-
-.swiper-slide__wrapper {
-    display: flex;
-    justify-content: center;
-}
-
-.swiper-slide__wrapper img {
-    object-fit: cover;
-    max-height: 50rem;
-    width: auto;
-    height: auto;
-    margin: 0 auto;
-
-    @media only screen and (max-width: 600px) {
-        width: 100%;
-        max-height: unset;
-    }
-}
-
-.tournament__imgs {
-    margin: 2rem 0 8rem;
-
-    @media only screen and (max-width: 600px) {
-        margin: 2rem 0 4rem;
-    }
-}
-
-.swiper-pagination-bullet {
-    background: white !important;
-}
-
-.swiper-pagination-bullet-active {
-    background: rgba(255, 255, 255, 0.5) !important;
-}
-
-.swiper-wrapper {
-    padding-bottom: 40px;
-}
-
-.swiper-slide {
-    height: unset !important;
-    margin: auto 0;
-}
-
-.pagination {
-    position: absolute;
-    bottom: 0 !important;
-}
-
-/* .swiper-button-next,
-.swiper-button-prev {
-    border-radius: 50%;
-    width: 4rem !important;
-    height: 4rem !important;
-    background: linear-gradient(
-        150deg,
-        #2b2e4a,
-        #3e345e,
-        #57386e,
-        #723b78,
-        #903c7a,
-        #af3d73,
-        #cd3f63,
-        #e84545
-    );
-
-    @media only screen and (max-width: 600px) {
-        width: 2rem !important;
-        height: 2rem !important;
+/* --------------------------------------------------------------------------
+   Layout
+   -------------------------------------------------------------------------- */
+@layer layout {
+    .page {
+        box-sizing: border-box;
+        inline-size: min(100%, 42rem);
+        margin-inline: auto;
+        padding-inline: var(--gutter-start) var(--gutter-end);
+        padding-block-end: calc(3.5rem + env(safe-area-inset-bottom));
     }
 
-    &::after {
-        font-size: 2rem !important;
-        font-weight: bold !important;
-        color: white;
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 0.875rem;
+        margin-block: 3rem 1.25rem;
+        font-family: var(--font-display);
+        font-weight: var(--font-display-weight);
+        font-size: clamp(1.75rem, 1.35rem + 2vw, 2.25rem);
+        line-height: 1.1;
 
-        @media only screen and (max-width: 600px) {
-            font-size: 1rem !important;
+        &::after {
+            content: "";
+            flex: 1;
+            block-size: 1px;
+            background: linear-gradient(to right, var(--color-accent-rule), transparent);
         }
     }
-} */
 
-table {
-    width: 100%;
+    .tournaments {
+        display: grid;
+        /* minmax(0, …) statt auto: sonst wächst die Spalte auf die Originalbreite der Fotos */
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1rem;
+    }
 }
 
-table,
-th,
-td {
-    border: 1px solid white;
+/* --------------------------------------------------------------------------
+   Komponenten
+   -------------------------------------------------------------------------- */
+@layer components {
+    /* ---- Kopf ---- */
+    .masthead {
+        padding-block: clamp(2.5rem, 7dvh, 4.5rem) 0.5rem;
+        text-align: center;
+    }
+
+    .masthead__cards {
+        inline-size: clamp(6.5rem, 28vw, 9rem);
+        block-size: auto;
+        margin: 0 auto 1.25rem;
+        rotate: -6deg;
+        filter: drop-shadow(0 12px 18px rgb(0 0 0 / 0.5));
+    }
+
+    .masthead__title {
+        margin-block-start: 0.5rem;
+        font-family: var(--font-display);
+        font-weight: var(--font-display-weight);
+        font-size: clamp(3.5rem, 1.6rem + 9.5vw, 6rem);
+        line-height: 0.92;
+        letter-spacing: -0.01em;
+        text-shadow:
+            0 2px 0 rgb(0 0 0 / 0.35),
+            0 0 48px rgb(226 192 110 / 0.2);
+    }
+
+    .masthead__sub {
+        margin-block-start: 0.625rem;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        letter-spacing: 0.42em;
+        text-transform: uppercase;
+        color: var(--color-text-muted);
+
+        &::after {
+            content: "♠ ♥ ♦ ♣" / "";
+            display: block;
+            margin-block-start: 0.875rem;
+            letter-spacing: 0.7em;
+            color: var(--color-accent);
+        }
+    }
+
+    .masthead__stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        margin-block-start: 1.75rem;
+        padding-block: 0.875rem;
+        border-block: 1px solid var(--color-accent-rule);
+
+        & > div {
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 0.125rem;
+        }
+
+        & > div + div {
+            border-inline-start: 1px solid var(--color-accent-rule);
+        }
+
+        & dt {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+        }
+
+        & dd {
+            font-family: var(--font-display);
+            font-size: clamp(1.375rem, 1.1rem + 1.4vw, 1.75rem);
+            line-height: 1.15;
+            font-variant-numeric: tabular-nums;
+        }
+    }
+
+    /* ---- Turnier als Spielkarte ---- */
+    .tournament {
+        --suit-color: var(--ink-900);
+
+        position: relative;
+        box-sizing: border-box;
+        color: var(--color-card-ink);
+        background:
+            radial-gradient(120% 70% at 0% 0%, rgb(255 255 255 / 0.9), transparent 60%),
+            var(--color-card);
+        border-radius: var(--radius-card);
+        box-shadow:
+            inset 0 0 0 0.375rem var(--color-card),
+            inset 0 0 0 calc(0.375rem + 1px) var(--color-rule),
+            var(--shadow-card);
+
+        &.is-red {
+            --suit-color: var(--red-600);
+        }
+
+        /* Eck-Symbole wie auf einer echten Karte (rein dekorativ) */
+        &::before,
+        &::after {
+            content: attr(data-suit) / "";
+            position: absolute;
+            font-family: var(--font-display);
+            font-size: 0.875rem;
+            line-height: 1;
+            color: var(--suit-color);
+            pointer-events: none;
+        }
+
+        &::before {
+            inset-block-start: 0.7rem;
+            inset-inline-start: 0.8rem;
+        }
+
+        &::after {
+            inset-block-end: 0.7rem;
+            inset-inline-end: 0.8rem;
+            rotate: 180deg;
+        }
+    }
+
+    .tournament summary {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 0.875rem;
+        min-block-size: 4.5rem;
+        padding: 1.5rem 1.125rem 1.5rem 1.375rem;
+        border-radius: inherit;
+        cursor: pointer;
+        list-style: none;
+        user-select: none;
+
+        &::-webkit-details-marker {
+            display: none;
+        }
+    }
+
+    /* Datum als Pokerchip */
+    .chip {
+        --chip: var(--suit-color);
+
+        display: grid;
+        place-content: center;
+        inline-size: 4.25rem;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 1;
+        color: var(--ivory-50);
+        background:
+            radial-gradient(
+                circle closest-side,
+                var(--chip) 67%,
+                var(--ivory-50) 68% 71%,
+                var(--chip) 72% 80%,
+                transparent 81%
+            ),
+            repeating-conic-gradient(from 7.5deg, var(--chip) 0 30deg, var(--ivory-50) 0 45deg);
+        box-shadow:
+            0 2px 4px rgb(0 0 0 / 0.3),
+            inset 0 0 0 1px rgb(0 0 0 / 0.15);
+        rotate: calc(-8deg + mod(var(--i, 0), 2) * 14deg);
+    }
+
+    .chip__day {
+        font-family: var(--font-display);
+        font-size: 1.375rem;
+    }
+
+    .chip__month {
+        margin-block-start: 0.125rem;
+        font-size: 0.5625rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+    }
+
+    .tournament__title {
+        font-family: var(--font-display);
+        font-weight: var(--font-display-weight);
+        font-size: clamp(1.25rem, 1.05rem + 1vw, 1.625rem);
+        line-height: 1.12;
+        text-wrap: balance;
+    }
+
+    .tournament__meta {
+        margin-block-start: 0.375rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1.35;
+        color: var(--color-card-muted);
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: 0.75rem;
+    }
+
+    .tournament__players {
+        white-space: nowrap;
+    }
+
+    /* +/- Knopf */
+    .toggle {
+        display: grid;
+        place-items: center;
+        inline-size: 2.25rem;
+        aspect-ratio: 1;
+        border: 1.5px solid var(--color-rule);
+        border-radius: 50%;
+        color: var(--color-card-ink);
+
+        &::before,
+        &::after {
+            content: "";
+            grid-area: 1 / 1;
+            inline-size: 0.75rem;
+            block-size: 2px;
+            border-radius: 1px;
+            background: currentColor;
+        }
+
+        &::after {
+            rotate: 90deg;
+        }
+    }
+
+    .tournament[open] .toggle {
+        border-color: transparent;
+        background: var(--color-card-ink);
+        color: var(--color-card);
+
+        &::after {
+            rotate: 0deg;
+        }
+    }
+
+    @media (hover: hover) {
+        .tournament summary:hover .toggle {
+            border-color: currentColor;
+        }
+    }
+
+    /* ---- Aufgeklappter Inhalt ---- */
+    .tournament__body {
+        margin-inline: 0.625rem;
+        padding: 1.25rem 0.75rem 2.25rem;
+        border-block-start: 1px dashed var(--color-rule);
+    }
+
+    .facts {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+
+        & > div {
+            padding: 0.625rem 0.75rem;
+            border-radius: var(--radius-inner);
+            background: color-mix(in oklab, var(--ivory-200) 55%, transparent);
+        }
+
+        & dt {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--color-card-muted);
+        }
+
+        & dd {
+            margin-block-start: 0.125rem;
+            font-family: var(--font-display);
+            font-size: 1.125rem;
+            line-height: 1.25;
+            overflow-wrap: anywhere;
+        }
+    }
+
+    .facts__wide {
+        grid-column: 1 / -1;
+    }
+
+    .prizes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem 1rem;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .prizes__place {
+        font-family: var(--font-body);
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--color-card-muted);
+    }
+
+    .callout {
+        margin-block-start: 0.75rem;
+        padding: 0.75rem 0.875rem;
+        border-radius: var(--radius-inner);
+        background: var(--ink-900);
+        color: var(--ivory-100);
+        font-size: 0.9375rem;
+
+        & strong {
+            font-weight: 600;
+            color: var(--gold-400);
+        }
+    }
+
+    .note {
+        margin-block-start: 0.75rem;
+        padding-inline-start: 0.875rem;
+        border-inline-start: 3px solid var(--suit-color);
+        color: var(--ink-700);
+    }
+
+    /* Ergebnisliste */
+    .results {
+        inline-size: 100%;
+        margin-block-start: 1.5rem;
+
+        & th {
+            padding: 0 0.5rem 0.5rem;
+            text-align: start;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--color-card-muted);
+        }
+
+        & td {
+            padding: 0.5rem;
+            border-block-start: 1px solid var(--color-rule);
+        }
+
+        & [class^="podium-"] td:last-child {
+            font-weight: 600;
+        }
+    }
+
+    .results__place {
+        inline-size: 3rem;
+
+        & span {
+            display: inline-grid;
+            place-items: center;
+            inline-size: 2rem;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            font-family: var(--font-display);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .podium-1 & span {
+            background: var(--gold-400);
+        }
+
+        .podium-2 & span {
+            background: var(--silver-400);
+        }
+
+        .podium-3 & span {
+            background: var(--bronze-400);
+        }
+
+        [class^="podium-"] & span {
+            box-shadow: inset 0 -2px 0 rgb(0 0 0 / 0.18);
+        }
+    }
+
+    /* Fotos als Polaroids auf der Karte – ganzes Bild sichtbar (auch Flyer) */
+    .gallery {
+        --swiper-pagination-color: var(--gold-400);
+        --swiper-pagination-bullet-inactive-color: var(--ink-900);
+        --swiper-pagination-bullet-inactive-opacity: 0.3;
+        --swiper-pagination-bottom: 0.625rem;
+
+        margin-block-start: 1.5rem;
+
+        /* Platz für die Punkte unter dem Bild (Swiper setzt padding auf .swiper selbst zurück) */
+        & .swiper-wrapper {
+            margin-block-end: 2rem;
+        }
+
+        & .swiper-slide {
+            aspect-ratio: 4 / 5;
+            /* deckend, damit beim Überblenden das vorige Foto nicht durchscheint */
+            background: var(--color-card);
+        }
+
+        /* Swiper erzwingt display: block auf Slides, daher zentrieren per absoluter Position */
+        & img {
+            position: absolute;
+            inset: 0;
+            box-sizing: border-box;
+            max-inline-size: 90%;
+            max-block-size: 90%;
+            margin: auto;
+            padding: 0.5rem 0.5rem 1.875rem;
+            background: white;
+            box-shadow:
+                0 2px 3px rgb(0 0 0 / 0.15),
+                0 12px 24px -10px rgb(0 0 0 / 0.5);
+            rotate: -2deg;
+        }
+
+        & .swiper-slide:nth-child(even) img {
+            rotate: 1.5deg;
+        }
+
+        & .swiper-slide:nth-child(3n) img {
+            rotate: -0.75deg;
+        }
+    }
+
+    @media (min-width: 40rem) {
+        .gallery .swiper-slide {
+            aspect-ratio: 4 / 3;
+        }
+    }
+
+    /* ---- Medaillenspiegel ---- */
+    .standings__table {
+        overflow-x: auto;
+        padding: 0.25rem 0.5rem;
+        border: 1px solid var(--color-accent-rule);
+        border-radius: var(--radius-card);
+        background: color-mix(in oklab, var(--felt-950) 65%, transparent);
+
+        & table {
+            inline-size: 100%;
+            font-variant-numeric: tabular-nums;
+        }
+
+        & th,
+        & td {
+            padding: 0.75rem 0.375rem;
+            text-align: center;
+        }
+
+        & thead th {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            border-block-end: 1px solid var(--color-accent-rule);
+
+            & span {
+                font-size: 1.125rem;
+                letter-spacing: 0;
+            }
+        }
+
+        & thead th:first-child,
+        & tbody th {
+            text-align: start;
+        }
+
+        & tbody th {
+            font-weight: 500;
+        }
+
+        & tbody tr + tr {
+            border-block-start: 1px solid rgb(255 255 255 / 0.07);
+        }
+
+        & tbody tr:nth-child(-n + 3) th {
+            font-family: var(--font-display);
+            font-weight: var(--font-display-weight);
+            font-size: 1.125rem;
+            color: var(--color-accent);
+        }
+
+        & .is-zero {
+            color: rgb(255 255 255 / 0.22);
+        }
+    }
+
+    .standings__starts {
+        color: var(--color-text-muted);
+    }
+
+    /* Textspalten (z. B. "Zuletzt" bei den Bounty Jägern) linksbündig */
+    .standings__table :is(th, td).standings__text {
+        text-align: start;
+        color: var(--color-text-muted);
+    }
+
+    /* ---- News-Ticker (aktuell auskommentiert im HTML) ---- */
+    .news__container {
+        inline-size: 100%;
+        overflow: hidden;
+        margin-block-end: 2rem;
+    }
+
+    .news__content {
+        display: inline-block;
+        padding-inline-start: 100%;
+        white-space: nowrap;
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        color: var(--color-accent);
+        animation: news 10s linear infinite;
+    }
+
+    /* ---- Easter-Egg ---- */
+    .easter-egg {
+        position: fixed;
+        z-index: 999;
+        font-family: var(--font-display);
+        font-size: 3rem;
+        color: var(--gold-400);
+        text-shadow: 0 4px 14px rgb(0 0 0 / 0.6);
+        pointer-events: none;
+        opacity: 0;
+        visibility: hidden;
+
+        &::after {
+            content: "";
+            position: absolute;
+            inline-size: 6.25rem;
+            block-size: 6.25rem;
+            background: url("assets/img/egg.webp") no-repeat center / contain;
+            translate: 0 -30%;
+        }
+    }
+
+    @media (forced-colors: active) {
+        .tournament,
+        .standings__table {
+            border: 1px solid CanvasText;
+        }
+    }
 }
 
-th,
-td {
-    padding: 1rem;
-}
-
-.easter-egg {
-    position: absolute;
-    font-size: 48px;
-    color: yellow;
-    pointer-events: none;
-    z-index: 999;
-    opacity: 0;
-    visibility: hidden;
+/* --------------------------------------------------------------------------
+   Bewegung – nur wenn erwünscht
+   -------------------------------------------------------------------------- */
+@keyframes news {
+    to {
+        transform: translate3d(-100%, 0, 0);
+    }
 }
 
 @keyframes fadeOut {
@@ -348,13 +729,66 @@ td {
     }
 }
 
-.easter-egg::after {
-    content: "";
-    position: absolute;
-    background-image: url(./assets/img/egg.webp);
-    background-size: contain;
-    background-repeat: no-repeat;
-    height: 10rem;
-    width: 10rem;
-    transform: translateY(-30%);
+@keyframes rise {
+    from {
+        opacity: 0;
+        translate: 0 1rem;
+    }
+}
+
+@keyframes deal {
+    from {
+        opacity: 0;
+        translate: 0 1.5rem;
+        rotate: -1.5deg;
+    }
+}
+
+@layer motion {
+    @media (prefers-reduced-motion: no-preference) {
+        .masthead > * {
+            animation: rise 0.7s var(--ease-out) both;
+        }
+
+        .masthead > :nth-child(2) { animation-delay: 80ms; }
+        .masthead > :nth-child(3) { animation-delay: 160ms; }
+        .masthead > :nth-child(4) { animation-delay: 240ms; }
+
+        /* Karten werden nacheinander "ausgeteilt" */
+        .tournament {
+            animation: deal 0.6s var(--ease-out) both;
+            animation-delay: calc(320ms + min(var(--i, 0), 8) * 70ms);
+        }
+
+        /* Aufklappen mit Höhen-Animation, wo unterstützt (sonst springt es einfach auf) */
+        .tournament::details-content {
+            block-size: 0;
+            overflow-y: clip;
+            transition:
+                block-size 0.45s var(--ease-out),
+                content-visibility 0.45s allow-discrete;
+        }
+
+        .tournament[open]::details-content {
+            block-size: auto;
+        }
+
+        .toggle,
+        .toggle::before,
+        .toggle::after {
+            transition:
+                rotate 0.35s var(--ease-out),
+                background-color 0.25s,
+                color 0.25s,
+                border-color 0.25s;
+        }
+
+        .tournament summary:active .chip {
+            scale: 0.94;
+        }
+
+        .chip {
+            transition: scale 0.15s;
+        }
+    }
 }

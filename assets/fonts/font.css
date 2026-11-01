@@ -46,3 +46,11 @@
     font-weight: 800;
     src: url('../fonts/funnel-display-v1-latin-800.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
   }
+  /* fraunces-600 - latin, variable mit Optical-Size-Achse (Display-Schrift für Titel) */
+  @font-face {
+    font-display: swap;
+    font-family: 'Fraunces';
+    font-style: normal;
+    font-weight: 600;
+    src: url('../fonts/fraunces-v38-latin-opsz-600.woff2') format('woff2');
+  }

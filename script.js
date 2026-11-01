@@ -1,30 +1,48 @@
 const MEDALS = { 1: "🥇", 2: "🥈", 3: "🥉" };
+const SUITS = ["♠", "♥", "♦", "♣"];
+const MONTHS = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"];
 
-const esc = (s) =>
-    String(s).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
-
-// "2026-02-07" -> "07.02.26"
-const formatDate = (iso) => {
-    const [y, m, d] = iso.split("-");
-    return `${d}.${m}.${y.slice(2)}`;
-};
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+const euro = (n) => `${n.toLocaleString("de-DE")} €`;
 
 const medalSuffix = (place) => (MEDALS[place] ? ` ${MEDALS[place]}` : "");
 
-function renderTournament(t) {
+// Datum als Poker-Chip: Tag groß, Monat + Jahr klein
+function renderDateChip(iso) {
+    const [y, m, d] = iso.split("-");
+    return `
+        <time class="chip" datetime="${iso}">
+            <span class="chip__day">${Number(d)}</span>
+            <span class="chip__month">${MONTHS[m - 1]} ${y.slice(2)}</span>
+        </time>`;
+}
+
+// Wer hat (geteilt) den besten Platz geholt?
+function winnerLine(t) {
+    const best = Math.min(...t.results.map(([, place]) => place));
+    const names = t.results.filter(([, place]) => place === best).map(([name]) => esc(name));
+    const label = names.length > 1 ? "Split" : "Sieg";
+    return `${MEDALS[best] ?? ""} ${label}: ${names.join(" · ")}`;
+}
+
+function renderTournament(t, i) {
+    const suit = SUITS[i % SUITS.length];
+    const red = suit === "♥" || suit === "♦";
+
     const prizes = t.prizes
-        .map((amount, i) => {
-            const place = t.results[i][1];
-            return `${MEDALS[place] ?? `${place}.`} ${amount}€`;
+        .map((amount, idx) => {
+            const place = t.results[idx][1];
+            const label = MEDALS[place] ?? `<span class="prizes__place">${place}. Platz</span>`;
+            return `<li>${label} ${euro(amount)}</li>`;
         })
-        .join(", ");
+        .join("");
 
     const rows = t.results
         .map(
             ([name, place]) => `
-                <tr${t.easterEgg === name ? ' id="egg-btn"' : ""}>
+                <tr${t.easterEgg === name ? ' id="egg-btn"' : ""}${MEDALS[place] ? ` class="podium-${place}"` : ""}>
+                    <td class="results__place"><span>${place}</span></td>
                     <td>${esc(name)}${medalSuffix(place)}</td>
-                    <td class="tournament__placement">${place}.</td>
                 </tr>`,
         )
         .join("");
@@ -33,40 +51,39 @@ function renderTournament(t) {
         .map(
             ([src, alt]) => `
                 <div class="swiper-slide">
-                    <div class="swiper-slide__wrapper">
-                        <img loading="lazy" src="${esc(src)}" alt="${esc(alt)}">
-                    </div>
+                    <img loading="lazy" src="${esc(src)}" alt="${esc(alt)}">
                 </div>`,
         )
         .join("");
 
     return `
-        <details class="tournament__wrapper">
-            <summary class="tournament__label">
-                <h2>
-                    ${esc(t.title)}
-                    <span>${formatDate(t.date)}</span>
-                </h2>
-                <span class="tournament__label--icon"></span>
-            </summary>
-            <div class="tournament__table">
-                <div class="tournament__info">
-                    <div>Location: ${esc(t.location)}</div>
-                    <div>Einsatz: ${t.buyIn}€</div>
-                    <div>Bounty: ${t.bounty}€</div>
-                    <div>Preisgeld: ${prizes}</div>
-                    ${t.mostBounties ? `<div>☠️ Bounty Jäger des Abends: ${esc(t.mostBounties)}</div>` : ""}
-                    ${t.note ? `<p class="tournament__note">${esc(t.note)}</p>` : ""}
+        <details class="tournament${red ? " is-red" : ""}" data-suit="${suit}" style="--i: ${i}">
+            <summary>
+                ${renderDateChip(t.date)}
+                <div class="tournament__head">
+                    <h3 class="tournament__title">${esc(t.title)}</h3>
+                    <p class="tournament__meta"><span>${winnerLine(t)}</span> <span class="tournament__players">${t.results.length} Spieler</span></p>
                 </div>
-                <table>
+                <span class="toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="tournament__body">
+                <dl class="facts">
+                    <div><dt>Location</dt><dd>${esc(t.location)}</dd></div>
+                    <div><dt>Einsatz</dt><dd>${euro(t.buyIn)}</dd></div>
+                    <div><dt>Bounty</dt><dd>${euro(t.bounty)}</dd></div>
+                    <div class="facts__wide"><dt>Preisgeld</dt><dd><ul class="prizes">${prizes}</ul></dd></div>
+                </dl>
+                ${t.mostBounties ? `<p class="callout">☠️ Bounty Jäger des Abends: <strong>${esc(t.mostBounties)}</strong></p>` : ""}
+                ${t.note ? `<p class="note">${esc(t.note)}</p>` : ""}
+                <table class="results">
                     <thead>
-                        <tr><th>Spieler</th><th>Platzierung</th></tr>
+                        <tr><th scope="col">Platz</th><th scope="col">Spieler</th></tr>
                     </thead>
                     <tbody>${rows}</tbody>
                 </table>
-                <div class="swiper js-swiper tournament__imgs">
+                <div class="swiper js-swiper gallery">
                     <div class="swiper-wrapper">${slides}</div>
-                    <div class="swiper-pagination pagination"></div>
+                    <div class="swiper-pagination"></div>
                 </div>
             </div>
         </details>`;
@@ -83,38 +100,67 @@ function computeMedalTable(tournaments) {
         }
     }
     return [...players.values()].sort(
-        (a, b) =>
-            b[1] - a[1] ||
-            b[2] - a[2] ||
-            b[3] - a[3] ||
-            b.starts - a.starts ||
-            a.name.localeCompare(b.name, "de"),
+        (a, b) => b[1] - a[1] || b[2] - a[2] || b[3] - a[3] || b.starts - a.starts || a.name.localeCompare(b.name, "de"),
     );
 }
 
 function renderMedalTable(tournaments) {
-    const cell = (n) => `<td class="tournament__placement">${n || "-"}</td>`;
+    const cell = (n) => `<td class="${n ? "" : "is-zero"}">${n || "–"}</td>`;
     return computeMedalTable(tournaments)
         .map(
             (p) => `
                 <tr>
-                    <td>${esc(p.name)}</td>
+                    <th scope="row">${esc(p.name)}</th>
                     ${cell(p[1])}${cell(p[2])}${cell(p[3])}
-                    <td class="tournament__starts-item">${p.starts}</td>
+                    <td class="standings__starts">${p.starts}</td>
                 </tr>`,
         )
         .join("");
 }
 
+// Wie oft war jemand "Bounty Jäger des Abends"? (tournaments ist neueste zuerst sortiert)
+function computeBountyTable(tournaments) {
+    const hunters = new Map();
+    for (const t of tournaments) {
+        if (!t.mostBounties) continue;
+        const h = hunters.get(t.mostBounties) ?? { name: t.mostBounties, titles: 0, last: t };
+        h.titles++;
+        hunters.set(t.mostBounties, h);
+    }
+    return [...hunters.values()].sort((a, b) => b.titles - a.titles || b.last.date.localeCompare(a.last.date));
+}
+
+function renderBountyTable(tournaments) {
+    return computeBountyTable(tournaments)
+        .map(
+            (h) => `
+                <tr>
+                    <th scope="row">${esc(h.name)}</th>
+                    <td>${h.titles}</td>
+                    <td class="standings__text">${esc(h.last.title)}</td>
+                </tr>`,
+        )
+        .join("");
+}
+
+function renderStats(tournaments) {
+    const players = new Set(tournaments.flatMap((t) => t.results.map(([name]) => name)));
+    const pot = tournaments.reduce((sum, t) => sum + t.prizes.reduce((a, b) => a + b, 0), 0);
+    const stat = (value, label) => `<div><dt>${label}</dt><dd>${value}</dd></div>`;
+    return stat(tournaments.length, "Turniere") + stat(players.size, "Spieler") + stat(euro(pot), "ausgespielt");
+}
+
 // Render
 const sorted = [...TOURNAMENTS].sort((a, b) => b.date.localeCompare(a.date));
-document.getElementById("tournaments").innerHTML = sorted
-    .map(renderTournament)
-    .join("");
+document.getElementById("tournaments").innerHTML = sorted.map(renderTournament).join("");
 document.getElementById("medal-table").innerHTML = renderMedalTable(sorted);
+document.getElementById("stats").innerHTML = renderStats(sorted);
+const bountyRows = renderBountyTable(sorted);
+document.getElementById("bounty-table").innerHTML = bountyRows;
+document.getElementById("bounty-section").hidden = !bountyRows;
 
 // Swiper erst beim ersten Öffnen starten (im geschlossenen <details> hat es keine Größe)
-document.querySelectorAll(".tournament__wrapper").forEach((details) => {
+document.querySelectorAll(".tournament").forEach((details) => {
     details.addEventListener("toggle", () => {
         const ele = details.querySelector(".js-swiper");
         if (!details.open || ele.swiper) return;

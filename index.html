@@ -3,74 +3,87 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="robots" content="noindex, nofollow">
     <title>Hosalotri</title>
-    <link rel="stylesheet" href="assets/fonts/font.css">
-    <link rel="stylesheet" href="style.css?v=20261101">
+    <link rel="preload" href="assets/fonts/fraunces-v38-latin-opsz-600.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="assets/fonts/font.css?v=20261101e">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="style.css?v=20261101e">
     <link rel="icon" type="image/png" href="assets/favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="assets/favicon/favicon.svg" />
     <link rel="shortcut icon" href="assets/favicon/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png" />
-    <meta name="Hosalotri Poker" content="Hosalotri Poker" />
+    <meta name="application-name" content="Hosalotri Poker" />
     <link rel="manifest" href="/site.webmanifest" />
-    <meta name="theme-color" content="#35654D" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#1f1a17" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#0b2219">
 </head>
 
 <body>
-    <div class="main__canvas">
-        <div class="u-generic-wrapper">
-            <div class="u-generic-wrapper-margin">
-                <!-- Header -->
-                <div class="header">
-                    <span class="header-img">
-                        <img src="assets/img/poker.png" alt="poker cards" fetchpriority="low">
-                    </span>
-                    <div class="header-title">
-                        <h1>Hosalotri Poker Runde</h1>
-                    </div>
-                </div>
+    <main class="page">
+        <!-- Header -->
+        <header class="masthead">
+            <img class="masthead__cards" src="assets/img/poker.png" alt="" width="250" height="250" fetchpriority="high">
+            <h1 class="masthead__title">Hosalotri</h1>
+            <p class="masthead__sub">Poker Runde</p>
+            <dl class="masthead__stats" id="stats"></dl>
+        </header>
 
-                <!-- NOTE: NEWS BANNER -->
-                <!-- <div class="news__container">
-                    <div class="news__content">
-                        +++ Nächste Poker Runde 31. Oktober 2025 +++
-                    </div>
-                </div> -->
-
-                <!-- Turniere: werden aus tournaments.js gerendert -->
-                <div id="tournaments"></div>
-
-                <!-- Medaillenspiegel: wird automatisch aus tournaments.js berechnet -->
-                <div class="tournament__stats-wrapper">
-                    <h2 class="tournament__stats-label">
-                        Medaillenspiegel
-                    </h2>
-                    <div class="tournament__stats">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Spieler</th>
-                                    <th>&#129351;</th>
-                                    <th>&#129352;</th>
-                                    <th>&#129353;</th>
-                                    <th class="tournament__stats--starts">Starts</th>
-                                </tr>
-                            </thead>
-                            <tbody id="medal-table"></tbody>
-                        </table>
-                    </div>
-                </div>
+        <!-- NOTE: NEWS BANNER -->
+        <!-- <div class="news__container">
+            <div class="news__content">
+                +++ Nächste Poker Runde 31. Oktober 2025 +++
             </div>
-        </div>
-        <span id="egg" class="easter-egg">Fold!!!</span>
-    </div>
+        </div> -->
+
+        <!-- Turniere: werden aus tournaments.js gerendert -->
+        <section aria-labelledby="tournaments-title">
+            <h2 class="section-title" id="tournaments-title">Turniere</h2>
+            <div class="tournaments" id="tournaments"></div>
+        </section>
+
+        <!-- Medaillenspiegel: wird automatisch aus tournaments.js berechnet -->
+        <section class="standings" aria-labelledby="standings-title">
+            <h2 class="section-title" id="standings-title">Medaillenspiegel</h2>
+            <div class="standings__table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Spieler</th>
+                            <th scope="col"><span aria-label="Gold">&#129351;</span></th>
+                            <th scope="col"><span aria-label="Silber">&#129352;</span></th>
+                            <th scope="col"><span aria-label="Bronze">&#129353;</span></th>
+                            <th scope="col">Starts</th>
+                        </tr>
+                    </thead>
+                    <tbody id="medal-table"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Bounty Jäger: wird automatisch aus mostBounties in tournaments.js berechnet -->
+        <section class="standings" id="bounty-section" aria-labelledby="bounty-title">
+            <h2 class="section-title" id="bounty-title">Bounty Jäger</h2>
+            <div class="standings__table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Spieler</th>
+                            <th scope="col"><span aria-label="Titel als Bounty Jäger des Abends">☠️</span></th>
+                            <th scope="col" class="standings__text">Zuletzt</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bounty-table"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <span id="egg" class="easter-egg" aria-hidden="true">Fold!!!</span>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="tournaments.js?v=20261101"></script>
-    <script src="script.js?v=20261101"></script>
+    <script src="tournaments.js?v=20261101e"></script>
+    <script src="script.js?v=20261101e"></script>
 </body>
 
 </html>

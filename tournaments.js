@@ -1,7 +1,7 @@
 // Alle Turniere. Neues Turnier einfach oben in die Liste einfügen.
 //
 // results: [Name, Platz] in Reihenfolge der Platzierung.
-//          Bei einem Chop teilen sich die Spieler den jeweils schlechteren Platz
+//          Bei einem Split teilen sich die Spieler den jeweils schlechteren Platz
 //          (z. B. zwei Spieler auf Platz 2 und kein Platz 1).
 //          Platz 1–3 bekommt automatisch 🥇🥈🥉 und zählt im Medaillenspiegel.
 // prizes:  Preisgeld in € für die ersten Plätze, in derselben Reihenfolge wie results.
