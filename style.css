@@ -6,6 +6,12 @@
     box-sizing: inherit;
 }
 
+/* <details> rendert seinen Inhalt in ::details-content, das von * nicht erfasst wird.
+   Eigene Regel, damit Browser ohne diesen Pseudo-Selektor nicht die ganze Liste verwerfen. */
+::details-content {
+    box-sizing: inherit;
+}
+
 /* * {
     outline: 1px solid #f00 !important;
 } */

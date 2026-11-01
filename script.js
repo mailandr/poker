@@ -13,7 +13,10 @@ const medalSuffix = (place) => (MEDALS[place] ? ` ${MEDALS[place]}` : "");
 
 function renderTournament(t) {
     const prizes = t.prizes
-        .map((amount, i) => `${MEDALS[t.results[i][1]] ?? ""} ${amount}€`)
+        .map((amount, i) => {
+            const place = t.results[i][1];
+            return `${MEDALS[place] ?? `${place}.`} ${amount}€`;
+        })
         .join(", ");
 
     const rows = t.results
@@ -52,6 +55,8 @@ function renderTournament(t) {
                     <div>Einsatz: ${t.buyIn}€</div>
                     <div>Bounty: ${t.bounty}€</div>
                     <div>Preisgeld: ${prizes}</div>
+                    ${t.mostBounties ? `<div>☠️ Bounty Jäger des Abends: ${esc(t.mostBounties)}</div>` : ""}
+                    ${t.note ? `<p class="tournament__note">${esc(t.note)}</p>` : ""}
                 </div>
                 <table>
                     <thead>

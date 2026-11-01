@@ -5,12 +5,52 @@
 //          (z. B. zwei Spieler auf Platz 2 und kein Platz 1).
 //          Platz 1–3 bekommt automatisch 🥇🥈🥉 und zählt im Medaillenspiegel.
 // prizes:  Preisgeld in € für die ersten Plätze, in derselben Reihenfolge wie results.
+//          Ab Platz 4 wird statt Medaille die Platzierung angezeigt (z. B. "4. 50€").
 // photos:  [URL, Alt-Text]
+// mostBounties (optional): Name des Spielers mit den meisten Bounties (unter dem Preisgeld).
+// note (optional): Zusatztext unter dem Preisgeld (nur im aufgeklappten Turnier sichtbar).
 // easterEgg (optional): Name des Spielers, dessen Zeile das Easter-Egg auslöst.
 
 const IMG = "https://ik.imagekit.io/izitp12v9";
 
 const TOURNAMENTS = [
+    {
+        date: "2026-10-31",
+        title: "Halloween Poker - 2026",
+        location: "Sali",
+        buyIn: 50,
+        bounty: 10,
+        prizes: [300, 200, 100, 50], // inkl. 1 Rebuy
+        mostBounties: "Roland",
+        results: [
+            ["Stef", 1],
+            ["Sali", 2],
+            ["Cle", 3],
+            ["Roland", 4],
+            ["Gas", 5],
+            ["Simon", 6],
+            ["klie Tobi", 7],
+            ["Tobi Z.", 8],
+            ["Muri", 9],
+            ["Milan", 10],
+            ["Päsc", 11],
+            ["Hülli", 12],
+        ],
+        photos: [
+            [`${IMG}/Turnier%206/Turnier-6-8.jpeg`, "Turnierfoto"],
+            [`${IMG}/Turnier%206/Turnier-6-6.jpeg`, "Turnierfoto"],
+            [`${IMG}/Turnier%206/Turnier-6-5.jpeg`, "Turnierfoto"],
+            [`${IMG}/Turnier%206/Turnier-6-1.jpeg`, "Turnierfoto"],
+            [`${IMG}/Turnier%206/Turnier-6-3.jpeg`, "Turnierfoto"],
+            [`${IMG}/Turnier%206/Turnier-6-4.jpeg`, "Turnierfoto"],
+            [`${IMG}/Turnier%206/Turnier-6-7.jpeg`, "Turnierfoto"],
+            [`${IMG}/Turnier%206/Turnier-6-9.jpeg`, "Turnierfoto"],
+            [`${IMG}/Turnier%206/Turnier-6-10.jpeg`, "Turnierfoto"],
+            [`${IMG}/Turnier%206/Turnier-6-11.jpeg`, "Turnierfoto"],
+            [`${IMG}/Turnier%206/flyer.jpeg`, "Flyer"],
+            [`${IMG}/Turnier%206/Turnier-6-2.jpeg`, "Turnierfoto"],
+        ],
+    },
     {
         date: "2026-02-07",
         title: "Sali & Hülli Geburtstags Pökerle",
@@ -63,7 +103,7 @@ const TOURNAMENTS = [
     },
     {
         date: "2025-10-31",
-        title: "Halloween Poker",
+        title: "Halloween Poker - 2025",
         location: "Sali",
         buyIn: 50,
         bounty: 10,
