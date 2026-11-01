@@ -28,8 +28,8 @@ Static, single-page results site for the private "Hosalotri" home poker game. Co
 4. Bump the `?v=YYYYMMDD` cache-buster in `index.html` for every changed file (`tournaments.js`, `script.js`, `style.css`, `font.css`). Otherwise phones keep showing the old results.
 
 ## Hosting
-- GitHub Pages project site: https://mailandr.github.io/poker/ (repo `poker`, served under the `/poker/` subpath).
-- **Always use relative paths** (`assets/...`, `site.webmanifest`). A leading `/` points to `mailandr.github.io/` and returns 404.
+- GitHub Pages with the custom domain **https://hosalotri.at/** (`CNAME` file in the repo; GitHub creates it, so don't delete it). Domain and DNS are at Hetzner: apex `A` records to GitHub's 4 IPs, `www` CNAME to `mailandr.github.io`. `www.hosalotri.at` and the old `mailandr.github.io/poker/` redirect to `hosalotri.at`.
+- **Always use relative paths** (`assets/...`, `site.webmanifest`), so the site works both at the domain root and under the old `/poker/` subpath.
 - Link previews (WhatsApp etc.) come from the `og:*` meta tags in `index.html`, not from JS. `og:image` must be an absolute URL. The image is `assets/img/og.jpg` (1200×630, keep it under ~300 KB).
 
 ## Notes
