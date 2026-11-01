@@ -263,7 +263,7 @@ body {
 }
 
 .swiper-pagination-bullet-active {
-    background: rgba(white, 0.5) !important;
+    background: rgba(255, 255, 255, 0.5) !important;
 }
 
 .swiper-wrapper {
