@@ -4,19 +4,24 @@ Static, single-page results site for the private "Hosalotri" home poker game. Co
 
 ## Stack
 - Plain HTML/CSS/JS — no build step, no package manager, no tests.
-- `index.html`: all content, written by hand. Newest tournament first, then the "Medaillenspiegel" (medal table) at the bottom.
+- `tournaments.js`: **all tournament data** (`TOURNAMENTS` array). This is the only file to edit for new results.
+- `index.html`: page shell (header, `#tournaments` container, medal-table `<tbody id="medal-table">`). It holds no results.
+- `script.js`: renders each tournament as a `<details>` accordion and **calculates the Medaillenspiegel** from the data. It sorts by gold, silver, bronze, then starts, then name. Swiper starts lazily on a tournament's first open. It also wires the easter egg (`easterEgg` field → `#egg-btn` → `#egg`).
 - `style.css`: plain CSS with **native nesting** (not Sass — no Sass functions like `rgba(white, .5)`). `html { font-size: 62.5% }`, so `1rem = 10px`.
-- `script.js`: Swiper init for every `.js-swiper` (each finds its own `.swiper-pagination`) and the easter egg (`#egg-btn` → `#egg`).
 - Swiper 11 comes from the jsDelivr CDN. Tournament photos are on ImageKit (`ik.imagekit.io/izitp12v9/Turnier%20N/...`), not in the repo.
 - Font: Funnel Display, self-hosted in `assets/fonts/` and loaded via `assets/fonts/font.css`.
 - Formatting: Prettier (`.prettierrc`: 4 spaces, semicolons).
 
 ## Adding a tournament
-1. Copy `tournament-template.html` to the top of the tournament list in `index.html`, above the previous newest one, with an `<!-- dd.mm.yy -->` comment.
-2. Set a unique checkbox `id` and the matching label `for` (the date, e.g. `07.02.26`), plus the title, location, Einsatz, Bounty and Preisgeld.
-3. Results: mark medals with 🥇 `&#129351;`, 🥈 `&#129352;`, 🥉 `&#129353;`. For a chop, the players who split share the lower place number (e.g. two players at "2." and no "1.").
-4. **Update the Medaillenspiegel by hand**: medal counts and "Starts" for every participant. Keep rows sorted by gold, then silver, then bronze. Recount against all tournament tables, because this table drifts easily.
-5. If `style.css` changed, bump the cache-buster `style.css?v=YYYYMMDD`.
+1. Add an object at the top of `TOURNAMENTS` in `tournaments.js`, with:
+   - `date` (ISO, e.g. `"2026-02-07"`; display order comes from it)
+   - `title`, `location`, `buyIn`, `bounty`
+   - `prizes` (amounts, in the same order as the top results)
+   - `results` (`[name, place]` pairs)
+   - `photos` (`[url, alt]` pairs)
+2. Places 1–3 get 🥇🥈🥉 automatically. For a chop, the players who split share the lower place number (e.g. two players at 2 and no 1).
+3. Don't touch the medal table; it is calculated. Spell player names exactly as before, or they count as a new player.
+4. Bump the `?v=YYYYMMDD` cache-buster in `index.html` for every changed file (`tournaments.js`, `script.js`, `style.css`). Otherwise phones keep showing the old results.
 
 ## Notes
 - The site is deliberately not indexed (`robots.txt` Disallow, `noindex` meta). Keep it that way.

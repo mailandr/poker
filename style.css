@@ -173,30 +173,21 @@ body {
     background-size: 2.5rem;
 }
 
-.tournament__checkbox {
-    display: none;
-}
+/* <details>/<summary>: Standard-Dreieck ausblenden, eigenes +/- Icon nutzen */
+summary.tournament__label {
+    list-style: none;
 
-.tournament__checkbox:checked + .tournament__label {
-    .tournament__label--icon {
-        &::after {
-            background-image: url("assets/icons/minus.svg");
-        }
+    &::-webkit-details-marker {
+        display: none;
     }
 }
-.tournament__checkbox:checked ~ .tournament__table {
-    display: block;
-    opacity: 1;
-    overflow: visible;
-    max-height: 100%;
-    overflow-x: auto;
+
+.tournament__wrapper[open] .tournament__label--icon::after {
+    background-image: url("assets/icons/minus.svg");
 }
 
 .tournament__table {
-    display: none;
-    opacity: 0;
-    max-height: 0;
-    overflow-y: hidden;
+    overflow-x: auto;
 
     th {
         font-size: 1.8rem;
