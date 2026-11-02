@@ -547,6 +547,12 @@
         --swiper-pagination-bullet-inactive-color: var(--ink-900);
         --swiper-pagination-bullet-inactive-opacity: 0.3;
         --swiper-pagination-bottom: 0.625rem;
+        --swiper-navigation-color: var(--ink-900);
+        --swiper-navigation-size: 1.125rem;
+        /* Abstand, damit Chip + Schatten nicht vom overflow: hidden der Galerie abgeschnitten werden */
+        --swiper-navigation-sides-offset: 1.5rem;
+        /* Mitte des Fotos, nicht der ganzen Galerie (2rem Platz für die Punkte) */
+        --swiper-navigation-top-offset: calc(50% - 1rem);
 
         margin-block-start: 1.5rem;
 
@@ -583,6 +589,26 @@
 
         & .swiper-slide:nth-child(3n) img {
             rotate: -0.75deg;
+        }
+
+        /* Pfeile: Swiper gibt die Breite vor, daher der runde Chip als ::before */
+        & :is(.swiper-button-prev, .swiper-button-next) {
+            &::before {
+                content: "";
+                position: absolute;
+                inset: 50% auto auto 50%;
+                z-index: -1;
+                inline-size: 2.25rem;
+                block-size: 2.25rem;
+                translate: -50% -50%;
+                border-radius: 50%;
+                background: color-mix(in oklab, var(--ivory-50) 85%, transparent);
+                box-shadow: 0 2px 6px rgb(0 0 0 / 0.25);
+            }
+
+            &::after {
+                font-weight: 700;
+            }
         }
     }
 

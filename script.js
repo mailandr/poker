@@ -84,6 +84,8 @@ function renderTournament(t, i) {
                 <div class="swiper js-swiper gallery">
                     <div class="swiper-wrapper">${slides}</div>
                     <div class="swiper-pagination"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
                 </div>
             </div>
         </details>`;
@@ -176,6 +178,14 @@ document.querySelectorAll(".tournament").forEach((details) => {
             pagination: {
                 dynamicBullets: true,
                 el: ele.querySelector(".swiper-pagination"),
+            },
+            navigation: {
+                prevEl: ele.querySelector(".swiper-button-prev"),
+                nextEl: ele.querySelector(".swiper-button-next"),
+            },
+            a11y: {
+                prevSlideMessage: "Vorheriges Foto",
+                nextSlideMessage: "Nächstes Foto",
             },
         });
     });
