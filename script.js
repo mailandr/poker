@@ -51,7 +51,9 @@ function renderTournament(t, i) {
         .map(
             ([src, alt]) => `
                 <div class="swiper-slide">
-                    <img loading="lazy" src="${esc(src)}" alt="${esc(alt)}">
+                    <button type="button" class="gallery__zoom" aria-label="Foto vergrößern">
+                        <img loading="lazy" src="${esc(src)}" alt="${esc(alt)}">
+                    </button>
                 </div>`,
         )
         .join("");
@@ -189,6 +191,48 @@ document.querySelectorAll(".tournament").forEach((details) => {
             },
         });
     });
+});
+
+// Lightbox (PhotoSwipe): erst beim ersten Antippen eines Fotos laden.
+// PhotoSwipe braucht Breite/Höhe; die lesen wir aus den Slider-Bildern.
+document.getElementById("tournaments").addEventListener("click", async (e) => {
+    const button = e.target.closest(".gallery__zoom");
+    if (!button) return;
+    const gallery = button.closest(".js-swiper");
+    const imgs = [...gallery.querySelectorAll("img")];
+
+    // noch nicht geladene (lazy) Bilder jetzt laden, damit ihre Größe bekannt ist
+    imgs.forEach((img) => (img.loading = "eager"));
+    const [{ default: PhotoSwipe }] = await Promise.all([
+        import("https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe.esm.min.js"),
+        ...imgs.map((img) => img.decode().catch(() => {})),
+    ]);
+
+    const pswp = new PhotoSwipe({
+        dataSource: imgs.map((img) => ({
+            src: img.src,
+            alt: img.alt,
+            width: img.naturalWidth,
+            height: img.naturalHeight,
+        })),
+        index: imgs.indexOf(button.querySelector("img")),
+        showHideAnimationType: "fade",
+        closeTitle: "Schließen",
+        zoomTitle: "Zoomen",
+        arrowPrevTitle: "Vorheriges Foto",
+        arrowNextTitle: "Nächstes Foto",
+        errorMsg: "Das Foto konnte nicht geladen werden.",
+    });
+    // iOS Safari scrollt beim Fokussieren der (fixierten) Lightbox nach oben: Position merken und wiederherstellen
+    const scrollY = window.scrollY;
+    const restoreScroll = () => window.scrollY !== scrollY && window.scrollTo({ top: scrollY, behavior: "instant" });
+    // nach dem Schließen steht der Slider auf dem zuletzt angesehenen Foto
+    pswp.on("close", () => {
+        gallery.swiper?.slideTo(pswp.currIndex, 0);
+        restoreScroll();
+    });
+    pswp.on("destroy", restoreScroll);
+    pswp.init();
 });
 
 // easter-egg

@@ -591,6 +591,21 @@
             rotate: -0.75deg;
         }
 
+        /* Ganzes Foto ist ein Button, der die Lightbox öffnet */
+        & .gallery__zoom {
+            position: absolute;
+            inset: 0;
+            padding: 0;
+            border: 0;
+            background: none;
+            cursor: zoom-in;
+
+            &:focus-visible {
+                outline: 2px solid var(--gold-400);
+                outline-offset: -4px;
+            }
+        }
+
         /* Pfeile: Swiper gibt die Breite vor, daher der runde Chip als ::before */
         & :is(.swiper-button-prev, .swiper-button-next) {
             &::before {
@@ -817,4 +832,9 @@
             transition: scale 0.15s;
         }
     }
+}
+
+/* PhotoSwipe-CSS ist nicht gelayert und schlägt sonst unsere Ebenen, daher hier ungelayert */
+.pswp {
+    --pswp-bg: var(--felt-950);
 }
