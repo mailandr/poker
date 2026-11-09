@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="assets/fonts/font.css?v=20261101e">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@5/dist/photoswipe.css" />
-    <link rel="stylesheet" href="style.css?v=20261102d">
+    <link rel="stylesheet" href="style.css?v=20261109">
     <link rel="icon" type="image/png" href="assets/favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="assets/favicon/favicon.svg" />
     <link rel="shortcut icon" href="assets/favicon/favicon.ico" />
@@ -94,11 +94,28 @@
         </section>
     </main>
 
+    <!-- Impressum: öffnet ohne JS über Invoker Commands (Fallback in script.js) -->
+    <footer class="site-footer">
+        <button type="button" class="site-footer__link" commandfor="impressum" command="show-modal">Impressum</button>
+    </footer>
+
+    <dialog id="impressum" class="impressum" closedby="any" aria-labelledby="impressum-title">
+        <h2 id="impressum-title" class="impressum__title">Impressum</h2>
+        <p class="impressum__kicker">Offenlegung gemäß § 25 MedienG</p>
+        <dl class="impressum__list">
+            <dt>Medieninhaber</dt>
+            <dd>Milan Aleksic<br>Bludenz, Österreich</dd>
+            <dt>Zweck der Website</dt>
+            <dd>Private, nicht kommerzielle Website der Hosalotri Poker Runde mit Ergebnissen und Fotos unserer Pokerabende.</dd>
+        </dl>
+        <button type="button" class="impressum__close" commandfor="impressum" command="close">Schließen</button>
+    </dialog>
+
     <span id="egg" class="easter-egg" aria-hidden="true">Fold!!!</span>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="tournaments.js?v=20261101e"></script>
-    <script src="script.js?v=20261102d"></script>
+    <script src="script.js?v=20261109"></script>
 </body>
 
 </html>

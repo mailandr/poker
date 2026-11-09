@@ -251,3 +251,24 @@ if (egg_btn && egg) {
         egg.style.animation = "fadeOut 2s forwards"; // neue Animation starten
     });
 }
+
+// Impressum: Fallbacks für Browser ohne Invoker Commands bzw. ohne <dialog closedby>
+const impressum = document.getElementById("impressum");
+
+if (impressum && !("commandForElement" in HTMLButtonElement.prototype)) {
+    document.addEventListener("click", (e) => {
+        const btn = e.target.closest("button[commandfor='impressum']");
+        if (!btn) return;
+        if (btn.getAttribute("command") === "show-modal") impressum.showModal();
+        else impressum.close();
+    });
+}
+
+if (impressum && !("closedBy" in HTMLDialogElement.prototype)) {
+    impressum.addEventListener("click", (e) => {
+        if (e.target !== impressum) return;
+        const r = impressum.getBoundingClientRect();
+        const inside = r.top <= e.clientY && e.clientY <= r.bottom && r.left <= e.clientX && e.clientX <= r.right;
+        if (!inside) impressum.close();
+    });
+}

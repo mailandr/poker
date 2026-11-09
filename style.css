@@ -777,6 +777,100 @@
     }
 }
 
+@layer components {
+    /* ---- Fußzeile & Impressum ---- */
+    .site-footer {
+        padding-block: 0 calc(2rem + env(safe-area-inset-bottom));
+        text-align: center;
+    }
+
+    .site-footer__link {
+        padding: 0.5rem 0.75rem;
+        border: 0;
+        background: none;
+        font: inherit;
+        font-size: 0.8125rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--color-text-muted);
+        cursor: pointer;
+
+        &:hover {
+            color: var(--color-accent);
+        }
+    }
+
+    .impressum {
+        box-sizing: border-box;
+        inline-size: min(100% - 2rem, 28rem);
+        max-block-size: calc(100dvh - 2rem);
+        padding: 1.75rem 1.5rem 1.5rem;
+        border: 0;
+        border-radius: var(--radius-card);
+        background: var(--color-card);
+        color: var(--color-card-ink);
+        box-shadow: var(--shadow-card);
+        overscroll-behavior: contain;
+
+        &::backdrop {
+            background: rgb(6 19 14 / 0.75);
+            backdrop-filter: blur(3px);
+            overflow: hidden;
+            overscroll-behavior: contain;
+        }
+
+        & a {
+            color: inherit;
+        }
+    }
+
+    .impressum__title {
+        font-family: var(--font-display);
+        font-weight: var(--font-display-weight);
+        font-size: 1.75rem;
+        line-height: 1.1;
+    }
+
+    .impressum__kicker {
+        margin-block-start: 0.25rem;
+        font-size: 0.8125rem;
+        color: var(--color-card-muted);
+    }
+
+    .impressum__list {
+        margin-block: 1.25rem;
+        padding-block-start: 1rem;
+        border-block-start: 1px solid var(--color-rule);
+
+        & dt {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--color-card-muted);
+        }
+
+        & dd + dt {
+            margin-block-start: 0.875rem;
+        }
+    }
+
+    .impressum__close {
+        padding: 0.5rem 1.25rem;
+        border: 1px solid var(--color-rule);
+        border-radius: 999px;
+        background: none;
+        font: inherit;
+        font-weight: 600;
+        color: inherit;
+        cursor: pointer;
+
+        &:hover {
+            background: var(--ivory-200);
+        }
+    }
+}
+
 @keyframes deal {
     from {
         opacity: 0;
